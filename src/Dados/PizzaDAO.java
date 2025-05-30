@@ -26,7 +26,7 @@ public class PizzaDAO {
         }
     }
 
-    public static Funcionarios validarUsuarioSeguro(Funcionarios FUN) {
+    public static Funcionarios validarUsuarioSeguro(Funcionarios funcionario) {
         String sql = "SELECT * FROM funcionarios WHERE nome = ? AND senha = ?";
         Funcionarios usuarioEncontrado = null;
 
@@ -34,8 +34,8 @@ public class PizzaDAO {
             Connection conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/pi", "root", "Hugo22gh");
             PreparedStatement statement = conexao.prepareStatement(sql);
 
-            statement.setString(1, FUN.getNome());
-            statement.setString(2, FUN.getSenha());
+            statement.setString(1, funcionario.getNome());
+            statement.setString(2, funcionario.getSenha());
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
@@ -54,14 +54,14 @@ public class PizzaDAO {
         return usuarioEncontrado;
     }
 
-    public int cadastrarCaixa(Pedido ped) {
+    public int cadastrarCaixa(Pedido pedido) {
         int status;
         try {
             st = conn.prepareStatement("INSERT INTO caixa (descricao,Funcao,data,valor) VALUES(?,?,?)");
-            st.setString(1, ped.getDescricao());
-            st.setString(2, ped.getFuncao());
-            st.setString(3, ped.getData());
-            st.setString(4, ped.getValor());
+            st.setString(1, pedido.getDescricao());
+            st.setString(2, pedido.getFuncao());
+            st.setString(3, pedido.getData());
+            st.setString(4, pedido.getValor());
             status = st.executeUpdate();
             System.out.println("Conexão realizada com sucesso");
             return status;
@@ -72,14 +72,14 @@ public class PizzaDAO {
 
     }
 
-    public int cadastrarFuncionarios(Funcionarios FUN) {
+    public int cadastrarFuncionarios(Funcionarios funcionario) {
         int status;
         try {
             st = conn.prepareStatement("INSERT INTO funcionarios (nome,senha,cargo,email) VALUES(?,?,?,?)");
-            st.setString(1, FUN.getNome());
-            st.setString(2, FUN.getSenha());
-            st.setString(3, FUN.getCargo());
-            st.setString(4, FUN.getEmail());
+            st.setString(1, funcionario.getNome());
+            st.setString(2, funcionario.getSenha());
+            st.setString(3, funcionario.getCargo());
+            st.setString(4, funcionario.getEmail());
             status = st.executeUpdate();
             System.out.println("Conexão realizada com sucesso");
             return status;
@@ -90,13 +90,13 @@ public class PizzaDAO {
 
     }
 
-    public int cadastrarClientes(Cliente cli) {
+    public int cadastrarClientes(Cliente cliente) {
         int status;
         try {
             st = conn.prepareStatement("INSERT INTO clientes (nome,datadenascimento,email) VALUES(?,?,?)");
-            st.setString(1, cli.getNome());
-            st.setString(3, cli.getDatadenascimento());
-            st.setString(2, cli.getEmail());
+            st.setString(1, cliente.getNome());
+            st.setString(3, cliente.getDatadenascimento());
+            st.setString(2, cliente.getEmail());
             status = st.executeUpdate();
             System.out.println("Conexão realizada com sucesso");
             return status;
@@ -106,7 +106,8 @@ public class PizzaDAO {
         }
 
     }
-    public List<Funcionarios> getFunc() {
+
+    public List<Funcionarios> getFuncionario() {
         if (this.conn == null) {
             if (!conectar()) {
                 System.out.println("Não foi possível estabelecer a conexão.");
@@ -121,10 +122,10 @@ public class PizzaDAO {
             while (rs.next()) {
                 Funcionarios FUN = new Funcionarios();
                 FUN.setId(rs.getInt("id"));
-                FUN.setNome(rs.getString("Nome"));               
+                FUN.setNome(rs.getString("Nome"));
                 FUN.setCargo(rs.getString("Cargo"));
                 FUN.setEmail(rs.getString("Email"));
-                
+
                 lista.add(FUN);
             }
             return lista;
@@ -133,6 +134,7 @@ public class PizzaDAO {
         }
         return null;
     }
+
     public List<Cliente> getCliente() {
         if (this.conn == null) {
             if (!conectar()) {
@@ -146,13 +148,13 @@ public class PizzaDAO {
             ResultSet rs = stmt.executeQuery();
             List<Cliente> lista = new ArrayList<>();
             while (rs.next()) {
-                Cliente CLI = new Cliente();
-                CLI.setId(rs.getInt("id"));
-                CLI.setNome(rs.getString("Nome"));               
-                CLI.setDatadenascimento(rs.getString("datadenascimento"));
-                CLI.setEmail(rs.getString("Email"));
-                
-                lista.add(CLI);
+                Cliente cliente = new Cliente();
+                cliente.setId(rs.getInt("id"));
+                cliente.setNome(rs.getString("Nome"));
+                cliente.setDatadenascimento(rs.getString("datadenascimento"));
+                cliente.setEmail(rs.getString("Email"));
+
+                lista.add(cliente);
             }
             return lista;
         } catch (Exception e) {

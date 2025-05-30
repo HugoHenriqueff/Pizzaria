@@ -2,11 +2,11 @@ package Dados;
 
 public class Funcionarios {
 
-   private String nome;
-   private String senha;
-   private int id ;
-   private String cargo;
-   private String email;
+    private String nome;
+    private String senha;
+    private int id;
+    private String cargo;
+    private String email;
 
     public String getEmail() {
         return email;
@@ -15,7 +15,7 @@ public class Funcionarios {
     public void setEmail(String email) {
         this.email = email;
     }
-   private UsuarioTipo tipo;
+    private UsuarioTipo tipo;
 
     public String getCargo() {
         return cargo;
@@ -40,7 +40,7 @@ public class Funcionarios {
     public void setId(int id) {
         this.id = id;
     }
-  
+
     public String getNome() {
         return nome;
     }

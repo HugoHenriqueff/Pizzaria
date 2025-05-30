@@ -1,12 +1,11 @@
 package Dados;
 
-
 public class Cliente {
-    private int id ;
+
+    private int id;
     private String nome;
     private String email;
     private String datadenascimento;
-
 
     public String getDatadenascimento() {
         return datadenascimento;
@@ -15,7 +14,6 @@ public class Cliente {
     public void setDatadenascimento(String datadenascimento) {
         this.datadenascimento = datadenascimento;
     }
-       
 
     public int getId() {
         return id;
