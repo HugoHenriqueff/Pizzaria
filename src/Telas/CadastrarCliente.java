@@ -149,16 +149,13 @@ public class CadastrarCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btmMenActionPerformed
 
     private void btmEnvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmEnvActionPerformed
-
         Cliente cliente = new Cliente();
-        PizzaDAO DAO = new PizzaDAO();
-
-        boolean status;
-        int resposta;
         cliente.setNome(txtNom.getText());
         cliente.setEmail(txtEma.getText());
         cliente.setDatadenascimento(jFormattedTextField1.getText());
-
+        PizzaDAO DAO = new PizzaDAO();
+        boolean status;
+        int resposta;
         DAO = new PizzaDAO();
         status = DAO.conectar();
 

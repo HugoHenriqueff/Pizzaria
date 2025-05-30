@@ -162,15 +162,13 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
 
     private void btmEnvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmEnvActionPerformed
         Funcionarios funcionario = new Funcionarios();
-        PizzaDAO DAO = new PizzaDAO();
-
-        boolean status;
-        int resposta;
         funcionario.setNome(txtNom.getText());
         funcionario.setSenha(txtSen.getText());
         funcionario.setCargo(jcbCar.getSelectedItem().toString());
         funcionario.setEmail(txtEma.getText());
-
+        PizzaDAO DAO = new PizzaDAO();
+        boolean status;
+        int resposta;
         DAO = new PizzaDAO();
         status = DAO.conectar();
 
