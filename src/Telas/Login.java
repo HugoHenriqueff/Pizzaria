@@ -1,7 +1,7 @@
 package Telas;
 
+import Dados.Conexao;
 import Dados.Funcionarios;
-import Dados.PizzaDAO;
 import Dados.UsuarioTipo;
 import javax.swing.JOptionPane;
 
@@ -116,7 +116,7 @@ public class Login extends javax.swing.JFrame {
         Funcionarios funcionario = new Funcionarios();
         funcionario.setNome(txtLog.getText());
         funcionario.setSenha(txtSen.getText());
-        funcionario = PizzaDAO.validarUsuarioSeguro(funcionario);
+        funcionario = Conexao.validarUsuarioSeguro(funcionario);
 
         if (funcionario != null) {
 

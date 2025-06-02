@@ -1,6 +1,7 @@
 package Telas;
 
 import Dados.Cliente;
+import Dados.Conexao;
 import Dados.PizzaDAO;
 import javax.swing.JOptionPane;
 
@@ -153,28 +154,24 @@ public class CadastrarCliente extends javax.swing.JFrame {
         cliente.setNome(txtNom.getText());
         cliente.setEmail(txtEma.getText());
         cliente.setDatadenascimento(jFormattedTextField1.getText());
-        PizzaDAO DAO = new PizzaDAO();
-        boolean status;
-        int resposta;
-        DAO = new PizzaDAO();
-        status = DAO.conectar();
-
-        if (status == false) {
-            JOptionPane.showMessageDialog(null, "Erro de conexão");
-        } else {
-            resposta = DAO.cadastrarClientes(cliente);
-            if (resposta == 1) {
-                JOptionPane.showMessageDialog(null, "Dados incluidos com sucesso");
-                txtNom.setText("");
-                jFormattedTextField1.setText("");
-                txtEma.setText("");
-
-            } else if (resposta == 1062) {
-                JOptionPane.showMessageDialog(null, "Dados já foram cadastrada");
-            } else {
-                JOptionPane.showMessageDialog(null, "Erro ao tentar inserir dados");
-            }
+        Conexao conexao = new Conexao();
+        if (!conexao.conectar()) {
+            System.out.println("Não foi possivel conectar");
         }
+        PizzaDAO DAO = new PizzaDAO();
+        int resposta = DAO.cadastrarClientes(cliente);
+        if (resposta == 1) {
+            JOptionPane.showMessageDialog(null, "Dados incluidos com sucesso");
+            txtNom.setText("");
+            jFormattedTextField1.setText("");
+            txtEma.setText("");
+
+        } else if (resposta == 1062) {
+            JOptionPane.showMessageDialog(null, "Dados já foram cadastrada");
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar inserir dados");
+        }
+
     }//GEN-LAST:event_btmEnvActionPerformed
 
     private void btmLimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmLimActionPerformed

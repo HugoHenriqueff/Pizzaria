@@ -1,5 +1,6 @@
 package Telas;
 
+import Dados.Conexao;
 import Dados.Funcionarios;
 import Dados.PizzaDAO;
 import javax.swing.JOptionPane;
@@ -166,16 +167,13 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
         funcionario.setSenha(txtSen.getText());
         funcionario.setCargo(jcbCar.getSelectedItem().toString());
         funcionario.setEmail(txtEma.getText());
+        Conexao conexao = new Conexao();
+        if (!conexao.conectar()) {
+            System.out.println("Não foi possivel conectar");
+        }
         PizzaDAO DAO = new PizzaDAO();
-        boolean status;
-        int resposta;
-        DAO = new PizzaDAO();
-        status = DAO.conectar();
-
-        if (status == false) {
-            JOptionPane.showMessageDialog(null, "Erro de conexão");
-        } else {
-            resposta = DAO.cadastrarFuncionarios(funcionario);
+        int resposta = DAO.cadastrarFuncionarios(funcionario); 
+        
             if (resposta == 1) {
                 JOptionPane.showMessageDialog(null, "Dados incluidos com sucesso");
                 txtNom.setText("");
@@ -187,7 +185,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Erro ao tentar inserir dados");
             }
-        }
+        
     }//GEN-LAST:event_btmEnvActionPerformed
 
     private void btmlimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmlimActionPerformed

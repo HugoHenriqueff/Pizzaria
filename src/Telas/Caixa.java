@@ -1,7 +1,8 @@
 package Telas;
 
+import Dados.CaixaDAO;
+import Dados.Conexao;
 import Dados.Pedido;
-import Dados.PizzaDAO;
 import javax.swing.JOptionPane;
 
 public class Caixa extends javax.swing.JFrame {
@@ -64,11 +65,8 @@ public class Caixa extends javax.swing.JFrame {
         }
         fmtData.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
-        try {
-            fmtSald.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#,###,##")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
+        fmtSald.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        fmtSald.setText(" .   ,  ");
         fmtSald.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
@@ -161,22 +159,18 @@ public class Caixa extends javax.swing.JFrame {
 
     private void btmEnvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmEnvActionPerformed
         Pedido pedido = new Pedido();
-        PizzaDAO DAO = new PizzaDAO();
-
-        boolean status;
-        int resposta;
         pedido.setDescricao(txtDesc.getText());
         pedido.setFuncao(cmbFunc.getSelectedItem().toString());
         pedido.setData(fmtData.getText());
         pedido.setValor(fmtSald.getText());
+        
+        Conexao conexao = new Conexao();
+        if (!conexao.conectar()) {
+            System.out.println("Não foi possivel conectar");
+        }
 
-        DAO = new PizzaDAO();
-        status = DAO.conectar();
-
-        if (status == false) {
-            JOptionPane.showMessageDialog(null, "Erro de conexão");
-        } else {
-            resposta = DAO.cadastrarCaixa(pedido);
+         CaixaDAO DAO = new CaixaDAO();
+        int resposta= DAO.cadastrarCaixa(pedido);
             if (resposta == 1) {
                 JOptionPane.showMessageDialog(null, "Dados incluidos com sucesso");
                 txtDesc.setText("");
@@ -187,8 +181,7 @@ public class Caixa extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Dados já foram cadastrada");
             } else {
                 JOptionPane.showMessageDialog(null, "Erro ao tentar inserir dados");
-            }
-        }
+            }        
     }//GEN-LAST:event_btmEnvActionPerformed
 
     /**
