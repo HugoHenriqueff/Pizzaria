@@ -66,7 +66,6 @@ public class Caixa extends javax.swing.JFrame {
         fmtData.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
         fmtSald.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        fmtSald.setText(" .   ,  ");
         fmtSald.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N

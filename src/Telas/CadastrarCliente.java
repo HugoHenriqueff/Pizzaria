@@ -3,7 +3,9 @@ package Telas;
 import Dados.Cliente;
 import Dados.Conexao;
 import Dados.PizzaDAO;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class CadastrarCliente extends javax.swing.JFrame {
 
@@ -25,7 +27,7 @@ public class CadastrarCliente extends javax.swing.JFrame {
         btmMen = new javax.swing.JButton();
         btmEnv = new javax.swing.JButton();
         btmLim = new javax.swing.JButton();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        jtfDataNasc = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,11 +68,11 @@ public class CadastrarCliente extends javax.swing.JFrame {
         });
 
         try {
-            jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            jtfDataNasc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFormattedTextField1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jtfDataNasc.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -101,7 +103,7 @@ public class CadastrarCliente extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
-                                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jtfDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -120,7 +122,7 @@ public class CadastrarCliente extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btmMen)
@@ -143,17 +145,30 @@ public class CadastrarCliente extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btmMenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmMenActionPerformed
-        dispose();
-        Menu menu = new Menu();
-        menu.setVisible(true);
-    }//GEN-LAST:event_btmMenActionPerformed
+    public JFormattedTextField getJtfDataNasc() {
+        return jtfDataNasc;
+    }
 
-    private void btmEnvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmEnvActionPerformed
+    public JTextField getTxtEma() {
+        return txtEma;
+    }
+
+    public JTextField getTxtNom() {
+        return txtNom;
+    }
+
+    public void CadastrarClienteBD() {
+        
+        try {
+        if (txtNom.getText().trim().isEmpty()
+                || txtEma.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos os campos devem ser preenchidos: Nome e Email");
+            return;
+        }
         Cliente cliente = new Cliente();
         cliente.setNome(txtNom.getText());
         cliente.setEmail(txtEma.getText());
-        cliente.setDatadenascimento(jFormattedTextField1.getText());
+        cliente.setDatadenascimento(jtfDataNasc.getText());
         Conexao conexao = new Conexao();
         if (!conexao.conectar()) {
             System.out.println("Não foi possivel conectar");
@@ -163,7 +178,7 @@ public class CadastrarCliente extends javax.swing.JFrame {
         if (resposta == 1) {
             JOptionPane.showMessageDialog(null, "Dados incluidos com sucesso");
             txtNom.setText("");
-            jFormattedTextField1.setText("");
+            jtfDataNasc.setText("");
             txtEma.setText("");
 
         } else if (resposta == 1062) {
@@ -171,12 +186,25 @@ public class CadastrarCliente extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Erro ao tentar inserir dados");
         }
+    }catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "ERRO! " + e.getMessage());
+        }
+    }
+    private void btmMenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmMenActionPerformed
+        dispose();
+        Menu menu = new Menu();
+        menu.setVisible(true);
+    }//GEN-LAST:event_btmMenActionPerformed
+
+    private void btmEnvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmEnvActionPerformed
+        CadastrarClienteBD();
 
     }//GEN-LAST:event_btmEnvActionPerformed
 
     private void btmLimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmLimActionPerformed
         txtNom.setText("");
-        jFormattedTextField1.setText("");
+        jtfDataNasc.setText("");
         txtEma.setText("");
     }//GEN-LAST:event_btmLimActionPerformed
 
@@ -219,12 +247,12 @@ public class CadastrarCliente extends javax.swing.JFrame {
     private javax.swing.JButton btmEnv;
     private javax.swing.JButton btmLim;
     private javax.swing.JButton btmMen;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JFormattedTextField jtfDataNasc;
     private javax.swing.JTextField txtEma;
     private javax.swing.JTextField txtNom;
     // End of variables declaration//GEN-END:variables
