@@ -3,12 +3,30 @@ package Telas;
 import Dados.Conexao;
 import Dados.Funcionarios;
 import Dados.PizzaDAO;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class CadastrarFuncionario extends javax.swing.JFrame {
 
     public CadastrarFuncionario() {
         initComponents();
+    }
+
+    public JComboBox<String> getJcbCar() {
+        return jcbCar;
+    }
+
+    public JTextField getTxtEma() {
+        return txtEma;
+    }
+
+    public JTextField getTxtNom() {
+        return txtNom;
+    }
+
+    public JTextField getTxtSen() {
+        return txtSen;
     }
 
     @SuppressWarnings("unchecked")
@@ -154,26 +172,29 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+public void CadastrarFuncionarioBD() {
+        try {
+            if (txtNom.getText().trim().isEmpty() || 
+                txtSen.getText().trim().isEmpty() ||
+                txtEma.getText().trim().isEmpty()){
+                JOptionPane.showMessageDialog(this, "Todos os campos devem ser preenchidos: Nome,Senha e Email");
+            return;
+            }
+            
+            
 
-    private void btmMenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmMenActionPerformed
-        dispose();
-        Menu menu = new Menu();
-        menu.setVisible(true);
-    }//GEN-LAST:event_btmMenActionPerformed
+            Funcionarios funcionario = new Funcionarios();
+            funcionario.setNome(txtNom.getText());
+            funcionario.setSenha(txtSen.getText());
+            funcionario.setCargo(jcbCar.getSelectedItem().toString());
+            funcionario.setEmail(txtEma.getText());
+            Conexao conexao = new Conexao();
+            if (!conexao.conectar()) {
+                System.out.println("Não foi possivel conectar");
+            }
+            PizzaDAO DAO = new PizzaDAO();
+            int resposta = DAO.cadastrarFuncionarios(funcionario);
 
-    private void btmEnvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmEnvActionPerformed
-        Funcionarios funcionario = new Funcionarios();
-        funcionario.setNome(txtNom.getText());
-        funcionario.setSenha(txtSen.getText());
-        funcionario.setCargo(jcbCar.getSelectedItem().toString());
-        funcionario.setEmail(txtEma.getText());
-        Conexao conexao = new Conexao();
-        if (!conexao.conectar()) {
-            System.out.println("Não foi possivel conectar");
-        }
-        PizzaDAO DAO = new PizzaDAO();
-        int resposta = DAO.cadastrarFuncionarios(funcionario); 
-        
             if (resposta == 1) {
                 JOptionPane.showMessageDialog(null, "Dados incluidos com sucesso");
                 txtNom.setText("");
@@ -185,7 +206,20 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Erro ao tentar inserir dados");
             }
-        
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "ERRO! " + e.getMessage());
+        }
+
+    }
+    private void btmMenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmMenActionPerformed
+        dispose();
+        Menu menu = new Menu();
+        menu.setVisible(true);
+    }//GEN-LAST:event_btmMenActionPerformed
+
+    private void btmEnvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmEnvActionPerformed
+        CadastrarFuncionarioBD();
     }//GEN-LAST:event_btmEnvActionPerformed
 
     private void btmlimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmlimActionPerformed
